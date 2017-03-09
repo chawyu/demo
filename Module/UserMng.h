@@ -13,5 +13,6 @@
 - (id)init;
 - (void)addNewUser:(UserEntity*)user;
 - (NSArray*)getAllUsers;
+- (UserEntity*)getUser:(NSString*)uid;
 - (NSMutableDictionary*)getKeyDictionary;
 @end

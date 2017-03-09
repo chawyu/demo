@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ChatCellProtocol.h"
 typedef NS_ENUM(NSUInteger, BubbleType)
 {
     BubbleType_Left,
     BubbleType_Right
 };
 @class MessageEntity;
-@interface MessageBaseCell : UITableViewCell
+@interface MessageBaseCell : UITableViewCell<ChatCellProtocol>
 @property (nonatomic, strong) UILabel* userName;
 @property (nonatomic, strong) UILabel* userContent;
 @property (nonatomic, strong) UIImageView* userAvater;

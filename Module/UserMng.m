@@ -43,7 +43,9 @@
     
     [self.allUsers setObject:user forKey:user.uid];
 }
-
+- (UserEntity*)getUser:(NSString*)uid{
+    return [self.allUsers objectForKey:uid];
+}
 - (NSArray*)getAllUsers{
     return [self.allUsers allValues];
 }

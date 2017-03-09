@@ -7,7 +7,10 @@
 //
 
 #import "MessageTextCell.h"
+#import "MessageEntity.h"
 #import <Masonry/Masonry.h>
+
+static const int fontsize = 16;
 @implementation MessageTextCell
 
 - (void)awakeFromNib {
@@ -16,11 +19,55 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        [self.userContent setBackgroundColor:[UIColor clearColor]];
+        [self.userContent setUserInteractionEnabled:YES];
+        [self.userContent setFont:[UIFont systemFontOfSize:fontsize]];
+        [self.userContent setNumberOfLines:0];
+        [self.contentView addSubview:self.userContent];
         
     }
     return self;
 }
 -(void)setContent:(MessageEntity*)message{
+    [super setContent:message];
+    
+    [self.userContent setTextColor:[UIColor redColor]];
+    [self.userContent setText:message.msgContent];
+    
+}
+#pragma mark  ChatCellProtocol
+
+- (CGSize)sizeForContent:(MessageEntity*)message{
+    return CGSizeZero;
+}
+
+- (float)contentUpGapWithBubble{
+    return 0;
+    
+}
+
+- (float)contentDownGapWithBubble{
+    return 0;
+    
+}
+
+- (float)contentLeftGapWithBubble{
+    return 0;
+    
+}
+
+- (float)contentRightGapWithBubble{
+    return 0;
+    
+}
+
+- (void)layoutContentView:(MessageEntity*)message{
+    
+    
+}
+
+- (float)cellHeightForMessage:(MessageEntity*)message{
+    return 0;
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

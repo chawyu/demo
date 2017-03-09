@@ -7,7 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class MessageEntity;
 @protocol ChatCellProtocol <NSObject>
+- (CGSize)sizeForContent:(MessageEntity*)message;
 
+- (float)contentUpGapWithBubble;
+
+- (float)contentDownGapWithBubble;
+
+- (float)contentLeftGapWithBubble;
+
+- (float)contentRightGapWithBubble;
+
+- (void)layoutContentView:(MessageEntity*)message;
+
+- (float)cellHeightForMessage:(MessageEntity*)message;
 @end

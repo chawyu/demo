@@ -13,3 +13,5 @@
 -(void)setUser:(UserEntity*)user;
 + (CGFloat) cellHeight;
 @end
+
+

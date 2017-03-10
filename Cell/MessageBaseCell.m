@@ -29,6 +29,11 @@ CGFloat const ct_bubbleUpDown = 20;                //气泡到上下边缘的距
       
         self.userAvater = [[UIImageView alloc] init];
         [self.userAvater setUserInteractionEnabled:YES];
+        [self.userAvater setContentMode:UIViewContentModeScaleAspectFill];
+        [self.userAvater setClipsToBounds:YES];
+        [self.userAvater.layer setCornerRadius:CGRectGetHeight([self.userAvater bounds]) / 2];
+        self.userAvater.layer.borderWidth = 5;
+        self.userAvater.layer.borderColor = [[UIColor whiteColor] CGColor];
         [self.contentView addSubview:self.userAvater];
         
         self.userName = [[UILabel alloc] init];
@@ -76,19 +81,23 @@ CGFloat const ct_bubbleUpDown = 20;                //气泡到上下边缘的距
     
     if (self.userType == BubbleType_Left) {
         UIImage* bubbleimage = [UIImage imageNamed:@"my_selected"];
+        bubbleimage = [bubbleimage stretchableImageWithLeftCapWidth:bubbleimage.size.width*0.5 topCapHeight:bubbleimage.size.width*0.8];
         [self.userBubble mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(width, height));
             make.left.mas_equalTo(self.userAvater.mas_right).offset(ct_avatarBubbleGap);
             make.top.mas_equalTo(self.userName.mas_bottom).offset(0);
         }];
+        
         [self.userBubble setImage:bubbleimage];
     } else {
         UIImage* bubbleimage = [UIImage imageNamed:@"my_selected"];
+        bubbleimage = [bubbleimage stretchableImageWithLeftCapWidth:bubbleimage.size.width*0.5 topCapHeight:bubbleimage.size.width*0.8];
         [self.userBubble mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(width, height));
             make.right.mas_equalTo(self.userAvater.mas_left).offset(-ct_avatarBubbleGap);
             make.top.mas_equalTo(self.userName.mas_bottom).offset(0);
         }];
+
         [self.userBubble setImage:bubbleimage];
         
     }

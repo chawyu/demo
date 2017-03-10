@@ -38,7 +38,15 @@ static const int fontsize = 16;
 #pragma mark  ChatCellProtocol
 
 - (CGSize)sizeForContent:(MessageEntity*)message{
-    return CGSizeZero;
+    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
+    paragraphStyle.alignment = NSTextAlignmentLeft;
+    NSDictionary *attribute = @{NSFontAttributeName : [UIFont systemFontOfSize:fontsize],
+                                      NSParagraphStyleAttributeName : paragraphStyle};
+                                      
+    CGSize textSize = [self boundingRectWithSize:CGSizeMake(self.view.frame.size.width-20, CGFLOAT_MAX) options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+
+    return CGSizeMake(ceil(textSize.width), ceil(textSize.height));
 }
 
 - (float)contentUpGapWithBubble{

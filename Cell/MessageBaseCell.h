@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ChatCellProtocol.h"
+extern CGFloat const ct_avatarEdge ;                 //头像到边缘的距离
+extern CGFloat const ct_avatarBubbleGap ;             //头像和气泡之间的距离
+extern CGFloat const ct_bubbleUpDown ;                //气泡到上下边缘的距离
 typedef NS_ENUM(NSUInteger, BubbleType)
 {
     BubbleType_Left,

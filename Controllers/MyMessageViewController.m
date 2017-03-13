@@ -28,6 +28,7 @@
     self.tableview = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
+    [self.tableview registerClass: [MessageTextCell class] forCellReuseIdentifier:CellIdentifier_MessageTextCell];
     
     [self.view addSubview:self.tableview];
     self.msgMng = [[MessageMng alloc] init];
@@ -42,7 +43,7 @@
     [self.msgMng addMessage:m4];
     [self.msgMng addMessage:m5];
 
-    [Player shareInstance].uid = "me";
+    [Player shareInstance].uid = @"me";
 
 
 
@@ -66,7 +67,7 @@
         cell = [[MessageTextCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier_MessageTextCell];
        // cell.contentLabel.delegate = self;
     }
-    if ([Player shareInstance].uid == message.uid){
+    if ([Player shareInstance].uid == message.sourceId){
         cell.userType = BubbleType_Right;
     }else{
         cell.userType = BubbleType_Left;

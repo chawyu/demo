@@ -9,12 +9,11 @@
 #import "MessageMng.h"
 #import "MessageEntity.h"
 #import "MessageTextCell.h"
-
+@interface MessageMng ()
+@property(nonatomic, strong) MessageTextCell* textCell; //for height
+@end
 @implementation MessageMng
-{
-	@property(nonatomic, strong) MessageTextCell* textCell; //for height
-	
-}
+
 -(id)init{
     self = [super init];
     if (self) {

@@ -34,6 +34,7 @@ static const int fontsize = 16;
     [self.userContent setTextColor:[UIColor redColor]];
     [self.userContent setText:message.msgContent];
     
+    
 }
 #pragma mark  ChatCellProtocol
 
@@ -44,7 +45,7 @@ static const int fontsize = 16;
     NSDictionary *attribute = @{NSFontAttributeName : [UIFont systemFontOfSize:fontsize],
                                       NSParagraphStyleAttributeName : paragraphStyle};
                                       
-    CGSize textSize = [self boundingRectWithSize:CGSizeMake(self.view.frame.size.width-20, CGFLOAT_MAX) options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+    CGSize textSize = [message.msgContent boundingRectWithSize:CGSizeMake(self.contentView.frame.size.width-50, CGFLOAT_MAX) options: NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
 
     return CGSizeMake(ceil(textSize.width), ceil(textSize.height));
 }
@@ -70,13 +71,18 @@ static const int fontsize = 16;
 }
 
 - (void)layoutContentView:(MessageEntity*)message{
-    
+     CGSize size = [self sizeForContent:message];
+    [self.userContent mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.userBubble.mas_left).offset([self contentLeftGapWithBubble]);
+        make.top.equalTo(self.userBubble.mas_top).offset([self contentUpGapWithBubble]);
+        make.size.mas_equalTo(CGSizeMake(size.width, size.height));
+    }];
     
 }
 
 - (CGFloat)cellHeightForMessage:(MessageEntity*)message{
     CGSize size = [self sizeForContent:message];
-    CGFloat height = size.height + [self contentDownGapWithBubble] + [self contentUpGapWithBubble];
+    CGFloat height = size.height + [self contentDownGapWithBubble] + [self contentUpGapWithBubble]+ct_bubbleUpDown;
     return height;
     
 }

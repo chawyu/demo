@@ -6,8 +6,8 @@
 //  Copyright © 2017年 chaw. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-
+//#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 @class UserEntity;
 @class MessageEntity;
 @interface MessageMng : NSObject

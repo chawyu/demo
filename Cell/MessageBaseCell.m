@@ -66,6 +66,11 @@ CGFloat const ct_bubbleUpDown = 20;                //气泡到上下边缘的距
             make.top.mas_equalTo(0);
             make.right.mas_equalTo(-ct_avatarEdge);
         }];
+        [self.userName mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.size.mas_equalTo(CGSizeMake(200, 15));
+            make.top.mas_equalTo(0);
+            make.right.equalTo(self.userAvater.mas_left).offset(-13);
+        }];
     }
     //头像名字
     
@@ -80,8 +85,8 @@ CGFloat const ct_bubbleUpDown = 20;                //气泡到上下边缘的距
     CGFloat width = [self contentLeftGapWithBubble] + size.width + [self contentRightGapWithBubble];
     
     if (self.userType == BubbleType_Left) {
-        UIImage* bubbleimage = [UIImage imageNamed:@"my_selected"];
-        bubbleimage = [bubbleimage stretchableImageWithLeftCapWidth:bubbleimage.size.width*0.5 topCapHeight:bubbleimage.size.width*0.8];
+        UIImage* bubbleimage = [UIImage imageNamed:@"message_left"];
+        bubbleimage = [bubbleimage stretchableImageWithLeftCapWidth:bubbleimage.size.width*0.5 topCapHeight:bubbleimage.size.width*0.5];
         [self.userBubble mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(width, height));
             make.left.mas_equalTo(self.userAvater.mas_right).offset(ct_avatarBubbleGap);
@@ -90,8 +95,8 @@ CGFloat const ct_bubbleUpDown = 20;                //气泡到上下边缘的距
         
         [self.userBubble setImage:bubbleimage];
     } else {
-        UIImage* bubbleimage = [UIImage imageNamed:@"my_selected"];
-        bubbleimage = [bubbleimage stretchableImageWithLeftCapWidth:bubbleimage.size.width*0.5 topCapHeight:bubbleimage.size.width*0.8];
+        UIImage* bubbleimage = [UIImage imageNamed:@"message_right"];
+        bubbleimage = [bubbleimage stretchableImageWithLeftCapWidth:bubbleimage.size.width*0.5 topCapHeight:bubbleimage.size.width*0.5];
         [self.userBubble mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.size.mas_equalTo(CGSizeMake(width, height));
             make.right.mas_equalTo(self.userAvater.mas_left).offset(-ct_avatarBubbleGap);
@@ -101,7 +106,7 @@ CGFloat const ct_bubbleUpDown = 20;                //气泡到上下边缘的距
         [self.userBubble setImage:bubbleimage];
         
     }
-    
+    [self layoutContentView:message];
     
 }
 #pragma mark  ChatCellProtocol

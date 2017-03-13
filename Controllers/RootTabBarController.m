@@ -15,6 +15,7 @@
 //#import "MyMessageViewController.h"
 #import "MyNotifyViewController.h"
 #import "RDVTabBarItem.h"
+#import "MyMessageViewController.h"
 
 @interface RootTabBarController ()
 
@@ -43,7 +44,8 @@
     MyContactViewController* mysocial = [[MyContactViewController alloc] init];
     BaseNaviagtionController* nav_mysocial = [[BaseNaviagtionController alloc] initWithRootViewController:mysocial];
     
-    MyViewController* my = [[MyViewController alloc] init];
+    //MyViewController* my = [[MyViewController alloc] init];
+    MyMessageViewController* my = [[MyMessageViewController alloc] init];
     BaseNaviagtionController* nav_my = [[BaseNaviagtionController alloc] initWithRootViewController:my];
     
     [self setViewControllers:@[nav_mygame, nav_mymessage, nav_mysocial, nav_my]];

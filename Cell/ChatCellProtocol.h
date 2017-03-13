@@ -6,20 +6,21 @@
 //  Copyright © 2017年 chaw. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+//#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 @class MessageEntity;
 @protocol ChatCellProtocol <NSObject>
 - (CGSize)sizeForContent:(MessageEntity*)message;
 
-- (float)contentUpGapWithBubble;
+- (CGFloat)contentUpGapWithBubble;
 
-- (float)contentDownGapWithBubble;
+- (CGFloat)contentDownGapWithBubble;
 
-- (float)contentLeftGapWithBubble;
+- (CGFloat)contentLeftGapWithBubble;
 
-- (float)contentRightGapWithBubble;
+- (CGFloat)contentRightGapWithBubble;
 
 - (void)layoutContentView:(MessageEntity*)message;
 
-- (float)cellHeightForMessage:(MessageEntity*)message;
+- (CGFloat)cellHeightForMessage:(MessageEntity*)message;
 @end

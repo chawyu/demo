@@ -49,22 +49,22 @@ static const int fontsize = 16;
     return CGSizeMake(ceil(textSize.width), ceil(textSize.height));
 }
 
-- (float)contentUpGapWithBubble{
+- (CGFloat)contentUpGapWithBubble{
     return 0;
     
 }
 
-- (float)contentDownGapWithBubble{
+- (CGFloat)contentDownGapWithBubble{
     return 0;
     
 }
 
-- (float)contentLeftGapWithBubble{
+- (CGFloat)contentLeftGapWithBubble{
     return 0;
     
 }
 
-- (float)contentRightGapWithBubble{
+- (CGFloat)contentRightGapWithBubble{
     return 0;
     
 }
@@ -74,8 +74,10 @@ static const int fontsize = 16;
     
 }
 
-- (float)cellHeightForMessage:(MessageEntity*)message{
-    return 0;
+- (CGFloat)cellHeightForMessage:(MessageEntity*)message{
+    CGSize size = [self sizeForContent:message];
+    CGFloat height = size.height + [self contentDownGapWithBubble] + [self contentUpGapWithBubble];
+    return height;
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

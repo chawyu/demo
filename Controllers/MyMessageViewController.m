@@ -11,6 +11,7 @@
 #import "MessageMng.h"
 #import "MessageEntity.h"
 #import "MessageTextCell.h"
+#import "Player.h"
 
 @interface MyMessageViewController ()
 @property (strong, nonatomic) UITableView* tableview;
@@ -30,16 +31,19 @@
     
     [self.view addSubview:self.tableview];
     self.msgMng = [[MessageMng alloc] init];
-    MessageEntity* m1 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"test1" msgDest:@"test2" msgContent:@"fasljjl"];
-    MessageEntity* m2 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"test1" msgDest:@"test2" msgContent:@"faslfasdfsadfasdfasdfasdfafjjl"];
-    MessageEntity* m3 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"test1" msgDest:@"test2" msgContent:@"发送到发送到发送到发所发生的发大水发SFFAI倨傲四大家疯狂拉升付款了"];
-    MessageEntity* m4 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"test1" msgDest:@"test2" msgContent:@"发送到发送到发发斯蒂芬fdasfaf"];
-    MessageEntity* m5 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"test1" msgDest:@"test2" msgContent:@"fasdf发来撒很费劲阿萨德发射计划付款哈萨克的复合卡书法课身份卡刷卡费发山东科技凤凰卡收到话费卡水电费卡刷卡复活卡水电费卡好看的十分好看教案上客户积分换卡是否"];
+    MessageEntity* m1 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"id1" msgDest:@"test2" msgContent:@"fasljjl"];
+    MessageEntity* m2 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"id2" msgDest:@"test2" msgContent:@"faslfasdfsadfasdfasdfasdfafjjl"];
+    MessageEntity* m3 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"id3" msgDest:@"test2" msgContent:@"发送到发送到发送到发所发生的发大水发SFFAI倨傲四大家疯狂拉升付款了"];
+    MessageEntity* m4 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"me" msgDest:@"test2" msgContent:@"发送到发送到发发斯蒂芬fdasfaf"];
+    MessageEntity* m5 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"id4" msgDest:@"test2" msgContent:@"fasdf发来撒很费劲阿萨德发射计划付款哈萨克的复合卡书法课身份卡刷卡费发山东科技凤凰卡收到话费卡水电费卡刷卡复活卡水电费卡好看的十分好看教案上客户积分换卡是否"];
     [self.msgMng addMessage:m1];
     [self.msgMng addMessage:m2];
     [self.msgMng addMessage:m3];
     [self.msgMng addMessage:m4];
     [self.msgMng addMessage:m5];
+
+    [Player shareInstance].uid = "me";
+
 
 
 }
@@ -51,7 +55,8 @@
     return 1;
 }
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 30;
+    MessageEntity* message = [self.msgMng.messageArray objectAtIndex:indexPath.row];
+    return [self.msgMng cellHeightForMessage:message];
 }
 - (UITableViewCell*)_MessageTextCell_tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath message:(MessageEntity*)message
 {
@@ -60,6 +65,11 @@
     {
         cell = [[MessageTextCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier_MessageTextCell];
        // cell.contentLabel.delegate = self;
+    }
+    if ([Player shareInstance].uid == message.uid){
+        cell.userType = BubbleType_Right;
+    }else{
+        cell.userType = BubbleType_Left;
     }
     [cell setContent:message];
     return cell;

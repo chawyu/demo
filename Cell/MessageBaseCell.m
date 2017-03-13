@@ -110,22 +110,22 @@ CGFloat const ct_bubbleUpDown = 20;                //气泡到上下边缘的距
     return CGSizeZero;
 }
 
-- (float)contentUpGapWithBubble{
+- (CGFloat)contentUpGapWithBubble{
     return 0;
     
 }
 
-- (float)contentDownGapWithBubble{
+- (CGFloat)contentDownGapWithBubble{
     return 0;
     
 }
 
-- (float)contentLeftGapWithBubble{
+- (CGFloat)contentLeftGapWithBubble{
     return 0;
     
 }
 
-- (float)contentRightGapWithBubble{
+- (CGFloat)contentRightGapWithBubble{
     return 0;
     
 }
@@ -135,7 +135,7 @@ CGFloat const ct_bubbleUpDown = 20;                //气泡到上下边缘的距
     
 }
 
-- (float)cellHeightForMessage:(MessageEntity*)message{
+- (CGFloat)cellHeightForMessage:(MessageEntity*)message{
     return 0;
     
 }

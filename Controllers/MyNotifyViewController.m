@@ -33,15 +33,15 @@
         user.uid = [NSString stringWithFormat:@"id%d", i];
         
         user.lastUpdateTime = arc4random_uniform(10);
-        user.name = [NSString stringWithFormat:@"name%lu", (unsigned long)user.lastUpdateTime];
+        user.name = [NSString stringWithFormat:@"name%d", i];
        // user.namepinyin = [user.name transformToPinyin];
         [[UserMng shareInstance]addNewUser:user];
     }
     //-----
     UserEntity* user = [[UserEntity alloc] init];
-    user.uid = @"t1";
+    user.uid = @"me";
     user.lastUpdateTime = 100;
-    user.name = @"zhou";
+    user.name = @"周维";
      //user.namepinyin = [user.name transformToPinyin];
     
     [[UserMng shareInstance]addNewUser:user];

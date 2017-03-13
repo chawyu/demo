@@ -15,4 +15,5 @@
 @property(nonatomic, strong) NSMutableArray* messageArray;
 
 -(void)addMessage:(MessageEntity*)message;
+-(CGFloat)cellHeightForMessage:(MessageEntity*)message;
 @end

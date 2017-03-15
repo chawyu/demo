@@ -62,12 +62,12 @@
     if (self.inputView) {
         [self.inputView prepareToDismiss];
     }
-    //[self.rdv_tabBarController setTabBarHidden:NO animated:YES];
+    [self.rdv_tabBarController setTabBarHidden:NO animated:YES];
     //[self stopPolling];
     //[[AudioManager shared] stopAll];
 }
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     //    键盘
     if (self.inputView) {
         [self.inputView prepareToShow];

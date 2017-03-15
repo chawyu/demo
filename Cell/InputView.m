@@ -80,11 +80,11 @@
     NSDictionary* userInfo = [aNotification userInfo];
     CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect keyboardBeginFrame = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    NSLog(@"begin:%@   end:%@  is:%d", NSStringFromCGRect(keyboardBeginFrame),NSStringFromCGRect(keyboardEndFrame),  [self.inputTextView isFirstResponder]) ;
+    //NSLog(@"%@begin:%@   end:%@  is:%d",userInfo,  NSStringFromCGRect(keyboardBeginFrame),NSStringFromCGRect(keyboardEndFrame),  [self.inputTextView isFirstResponder]) ;
     if (self.inputviewStatus == InputViewStatus_System && [self.inputTextView isFirstResponder]) {
         
         CGFloat keyboardY =  keyboardEndFrame.origin.y;
-        return;
+        
         
         CGFloat selfOriginY = kScreen_Height;
         if (keyboardY == kScreen_Height) {
@@ -127,7 +127,7 @@
     [kKeyWindow addSubview:_addKeyboardView];
     [kKeyWindow addSubview:_voiceKeyboardView];
     */
-    [self isAndResignFirstResponder];
+   // [self isAndResignFirstResponder];
     self.inputviewStatus = InputViewStatus_System;
     if (_isAlwaysShow && ![self isCustomFirstResponder]) {
         [UIView animateWithDuration:0.25 animations:^{
@@ -295,6 +295,15 @@
         [self.inputTextView resignFirstResponder];
         endY = kScreen_Height - kKeyboardView_Height;
     }
+    [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+//        [_emojiKeyboardView setY:endY];
+//        [_addKeyboardView setY:kScreen_Height];
+//        [_voiceKeyboardView setY:kScreen_Height];
+        if (ABS(kScreen_Height - endY) > 0.1) {
+            [self setY:endY- CGRectGetHeight(self.frame)];
+        }
+    } completion:^(BOOL finished) {
+    }];
 }
 - (void)emotionButtonClicked:(id)sender {
 	CGFloat endY = kScreen_Height;
@@ -306,6 +315,15 @@
         [self.inputTextView resignFirstResponder];
         endY = kScreen_Height - kKeyboardView_Height;
     }
+    [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+        //        [_emojiKeyboardView setY:endY];
+        //        [_addKeyboardView setY:kScreen_Height];
+        //        [_voiceKeyboardView setY:kScreen_Height];
+        if (ABS(kScreen_Height - endY) > 0.1) {
+            [self setY:endY- CGRectGetHeight(self.frame)];
+        }
+    } completion:^(BOOL finished) {
+    }];
 }
 - (void)addButtonClicked:(id)sender {
 	CGFloat endY = kScreen_Height;
@@ -317,6 +335,15 @@
         [self.inputTextView resignFirstResponder];
         endY = kScreen_Height - kKeyboardView_Height;
     }
+    [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+        //        [_emojiKeyboardView setY:endY];
+        //        [_addKeyboardView setY:kScreen_Height];
+        //        [_voiceKeyboardView setY:kScreen_Height];
+        if (ABS(kScreen_Height - endY) > 0.1) {
+            [self setY:endY- CGRectGetHeight(self.frame)];
+        }
+    } completion:^(BOOL finished) {
+    }];
 }
 @end
 

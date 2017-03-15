@@ -1,0 +1,9 @@
+
+
+#define kKeyWindow [UIApplication sharedApplication].keyWindow
+#define kScreen_Bounds [UIScreen mainScreen].bounds
+#define kScreen_Height [UIScreen mainScreen].bounds.size.height
+#define kScreen_Width [UIScreen mainScreen].bounds.size.width
+
+//------------------COLOR-----------------------------------
+#define kColorCommonBG [UIColor colorWithHexString:@"0xF8F8F8"]

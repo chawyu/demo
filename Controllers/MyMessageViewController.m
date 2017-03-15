@@ -12,9 +12,11 @@
 #import "MessageEntity.h"
 #import "MessageTextCell.h"
 #import "Player.h"
+#import "InputView.h"
 
 @interface MyMessageViewController ()
 @property (strong, nonatomic) UITableView* tableview;
+@property (strong, nonatomic) InputView* inputView;
 @property (strong, nonatomic) NSMutableDictionary* messagedata;
 @property (strong, nonatomic) MessageMng* msgMng;
 
@@ -29,6 +31,9 @@
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     [self.tableview registerClass: [MessageTextCell class] forCellReuseIdentifier:CellIdentifier_MessageTextCell];
+
+    self.inputView = [InputView inputViewWithType:InputViewType_PriMsg placeHolder:@""];
+    self.inputView.isAlwaysShow = YES;
     
     [self.view addSubview:self.tableview];
     self.msgMng = [[MessageMng alloc] init];
@@ -47,6 +52,24 @@
 
 
 
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (self.inputView) {
+        [self.inputView prepareToDismiss];
+    }
+    //[self stopPolling];
+    //[[AudioManager shared] stopAll];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    //    键盘
+    if (self.inputView) {
+        [self.inputView prepareToShow];
+    }
+   // [self.myTableView reloadData];
+   // [self startPolling];
 }
 #pragma mark - UITableView
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

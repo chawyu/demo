@@ -23,6 +23,7 @@ CGFloat const ct_bubbleUpDown = 20;                //气泡到上下边缘的距
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.userType = BubbleType_Left;
+        self.selectionStyle = UITableViewCellSelectionStyleNone;
         self.contentView.backgroundColor = [UIColor clearColor];
         
         self.userContent = [[UILabel alloc] initWithFrame:CGRectZero];

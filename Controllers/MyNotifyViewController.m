@@ -86,6 +86,9 @@
     [cell setUser:user];
     return cell;
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UserEntity* user = self.list[indexPath.row];
+}
 /*
 #pragma mark - Navigation
 

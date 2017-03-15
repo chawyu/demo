@@ -12,6 +12,7 @@
 #import "MessageEntity.h"
 #import "MessageTextCell.h"
 #import "Player.h"
+#import "UserEntity.h"
 
 @interface MyMessageViewController ()
 @property (strong, nonatomic) UITableView* tableview;
@@ -28,6 +29,7 @@
     self.tableview = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
+    self.tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableview registerClass: [MessageTextCell class] forCellReuseIdentifier:CellIdentifier_MessageTextCell];
     
     [self.view addSubview:self.tableview];

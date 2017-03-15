@@ -1,0 +1,28 @@
+//
+//  prefix.pch
+//  iOSDemo
+//
+//  Created by 周维 on 17/3/15.
+//  Copyright © 2017年 chaw. All rights reserved.
+//
+
+#ifndef prefix_pch
+#define prefix_pch
+//#import <UIKit/UIKit.h>
+//#import <Foundation/Foundation.h>
+/*
+#import <Masonry/Masonry.h>
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+
+*/
+//------------------COLOR-----------------------------------
+
+#define kKeyWindow [UIApplication sharedApplication].keyWindow
+#define kScreen_Bounds [UIScreen mainScreen].bounds
+#define kScreen_Height [UIScreen mainScreen].bounds.size.height
+#define kScreen_Width [UIScreen mainScreen].bounds.size.width
+#define kColorCommonBG [UIColor colorWithHexString:@"0xF8F8F8"];
+
+#endif /* prefix_pch */

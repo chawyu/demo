@@ -13,11 +13,15 @@
 #import "MessageTextCell.h"
 #import "Player.h"
 #import "UserEntity.h"
+#import "InputView.h"
+#import "RDVTabBarController.h"
 
 @interface MyMessageViewController ()
 @property (strong, nonatomic) UITableView* tableview;
+@property (strong, nonatomic) InputView* inputView;
 @property (strong, nonatomic) NSMutableDictionary* messagedata;
 @property (strong, nonatomic) MessageMng* msgMng;
+
 
 @end
 
@@ -31,6 +35,9 @@
     self.tableview.dataSource = self;
     self.tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.tableview registerClass: [MessageTextCell class] forCellReuseIdentifier:CellIdentifier_MessageTextCell];
+
+    self.inputView = [InputView inputViewWithType:InputViewType_PriMsg placeHolder:@""];
+    self.inputView.isAlwaysShow = YES;
     
     [self.view addSubview:self.tableview];
     self.msgMng = [[MessageMng alloc] init];
@@ -50,6 +57,27 @@
 
 
 }
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (self.inputView) {
+        [self.inputView prepareToDismiss];
+    }
+    //[self.rdv_tabBarController setTabBarHidden:NO animated:YES];
+    //[self stopPolling];
+    //[[AudioManager shared] stopAll];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //    键盘
+    if (self.inputView) {
+        [self.inputView prepareToShow];
+        
+    }
+    [self.rdv_tabBarController setTabBarHidden:YES animated:YES];
+    // [self.myTableView reloadData];
+    // [self startPolling];
+}
+
 #pragma mark - UITableView
 - (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return [self.msgMng.messageArray count];

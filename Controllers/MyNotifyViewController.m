@@ -9,7 +9,8 @@
 #import "NotifyCell.h"
 #import "MyNotifyViewController.h"
 #import "UserMng.h"
-
+#import "MyMessageViewController.h"
+#import "RDVTabBarController.h"
 @interface MyNotifyViewController ()
 @property (strong, nonatomic) UITableView* tableview;
 //@property (strong, nonatomic) NSMutableDictionary* notifydata;
@@ -60,6 +61,17 @@
     
     
 }
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+
+}
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+ 
+    [self.rdv_tabBarController setTabBarHidden:NO animated:YES];
+    // [self.myTableView reloadData];
+    // [self startPolling];
+}
 -(void)sortDatas{
     NSSortDescriptor* des1 = [[NSSortDescriptor alloc]initWithKey:@"lastUpdateTime" ascending:YES];
    NSSortDescriptor* des2 = [[NSSortDescriptor alloc]initWithKey:@"uid" ascending:NO];
@@ -88,6 +100,13 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UserEntity* user = self.list[indexPath.row];
+    //TODO check user life
+    MyMessageViewController* vc = [[MyMessageViewController alloc] init];
+    vc.user = user;
+    
+    [self.navigationController pushViewController:vc animated:YES];
+    
+    
 }
 /*
 #pragma mark - Navigation

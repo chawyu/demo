@@ -22,6 +22,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //self.edgesForExtendedLayout = UIRectEdgeNone;
+    //self.automaticallyAdjustsScrollViewInsets = NO;
     // Do any additional setup after loading the view.
     self.tableview = [[UITableView alloc] initWithFrame: self.view.bounds style:UITableViewStylePlain];
     self.tableview.delegate = self;

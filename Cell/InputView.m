@@ -19,6 +19,22 @@
 @end
 
 @implementation InputView
+- (void)setFrame:(CGRect)frame{
+    CGFloat oldheightToBottom = kScreen_Height - CGRectGetMinY(self.frame);
+    CGFloat newheightToBottom = kScreen_Height - CGRectGetMinY(frame);
+    NSLog(@"--setframe---%@- %f-(%f %f)", NSStringFromCGRect(frame), newheightToBottom, kScreen_Height, CGRectGetMinY(frame));
+    [super setFrame:frame];
+    if (fabs(oldheightToBottom - newheightToBottom) > 0.1) {
+        /*
+        if (oldheightToBottom > newheightToBottom) {//降下去的时候保存
+            [self saveInputStr];
+            [self saveInputMedia];
+        }*/
+        if (_delegate && [_delegate respondsToSelector:@selector(inputView:heightToBottomChenged:)]) {
+            [self.delegate inputView:self heightToBottomChenged:newheightToBottom];
+        }
+    }
+}
 - (void)setInputviewStatus:(InputViewStatus)inputStatus{
     if (_inputviewStatus != inputStatus) {
         _inputviewStatus = inputStatus;
@@ -69,8 +85,44 @@
         self.backgroundColor = [UIColor clearColor];
         self.inputviewStatus = InputViewStatus_System;
         self.isAlwaysShow = NO;
+        UITapGestureRecognizer *panGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];
+        [self addGestureRecognizer:panGesture];
     }
     return self;
+}
+- (void)didPan:(UITapGestureRecognizer *)panGesture
+{
+    //NSLog(@"--%@", panGesture.view);
+    //[self isAndResignFirstResponder];
+}
+#pragma mark - UITextViewDelegate
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    if (self.inputviewStatus != InputViewStatus_System) {
+        self.inputviewStatus = InputViewStatus_System;
+        [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+            /*
+            [_emojiKeyboardView setY:kScreen_Height];
+            [_addKeyboardView setY:kScreen_Height];
+            [_voiceKeyboardView setY:kScreen_Height];*/
+        } completion:^(BOOL finished) {
+            self.inputviewStatus = InputViewStatus_System;
+        }];
+    }
+    return YES;
+}
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView{
+    NSLog(@"textViewShouldEndEditing %ldl ",(long)self.inputviewStatus);
+    if (self.inputviewStatus == InputViewStatus_System) {
+        [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+            if (_isAlwaysShow) {
+                [self setY:kScreen_Height- kInputView_Height];
+            }else{
+                [self setY:kScreen_Height];
+            }
+        } completion:^(BOOL finished) {
+        }];
+    }
+    return YES;
 }
 #pragma mark - KeyBoard Notification Handlers
 - (void)keyboardChange:(NSNotification*)aNotification{
@@ -80,7 +132,7 @@
     NSDictionary* userInfo = [aNotification userInfo];
     CGRect keyboardEndFrame = [[userInfo objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
     CGRect keyboardBeginFrame = [[userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    //NSLog(@"%@begin:%@   end:%@  is:%d",userInfo,  NSStringFromCGRect(keyboardBeginFrame),NSStringFromCGRect(keyboardEndFrame),  [self.inputTextView isFirstResponder]) ;
+    NSLog(@"begin:%@   end:%@  is:%d",  NSStringFromCGRect(keyboardBeginFrame),NSStringFromCGRect(keyboardEndFrame),  [self.inputTextView isFirstResponder]) ;
     if (self.inputviewStatus == InputViewStatus_System && [self.inputTextView isFirstResponder]) {
         
         CGFloat keyboardY =  keyboardEndFrame.origin.y;
@@ -162,11 +214,12 @@
             [_emojiKeyboardView setY:kScreen_Height];
             [_addKeyboardView setY:kScreen_Height];
             [_voiceKeyboardView setY:kScreen_Height];
+            */
             if (self.isAlwaysShow) {
-                [self setY:kScreen_Height- CGRectGetHeight(self.frame)];
+                [self setY:kScreen_Height- kInputView_Height];
             }else{
                 [self setY:kScreen_Height];
-            }*/
+            }
         } completion:^(BOOL finished) {
             self.inputviewStatus = InputViewStatus_System;
         }];

@@ -7,8 +7,9 @@
 //
 
 #import "BaseViewController.h"
+#import "InputView.h"
 @class UserEntity;
-@interface MyMessageViewController : BaseViewController<UITableViewDataSource, UITabBarDelegate>
+@interface MyMessageViewController : BaseViewController<UITableViewDataSource, UITabBarDelegate, InputViewDelegate>
 @property (strong, nonatomic) UserEntity* user;
 
 @end

@@ -13,7 +13,6 @@
 #import "MessageTextCell.h"
 #import "Player.h"
 #import "UserEntity.h"
-#import "InputView.h"
 #import "RDVTabBarController.h"
 
 @interface MyMessageViewController ()
@@ -29,17 +28,27 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+   self.edgesForExtendedLayout = UIRectEdgeNone;
+    self.automaticallyAdjustsScrollViewInsets = YES;
+
+    
     // Do any additional setup after loading the view.
     self.tableview = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.separatorStyle = UITableViewCellSeparatorStyleNone;
+    
     [self.tableview registerClass: [MessageTextCell class] forCellReuseIdentifier:CellIdentifier_MessageTextCell];
 
     self.inputView = [InputView inputViewWithType:InputViewType_PriMsg placeHolder:@""];
     self.inputView.isAlwaysShow = YES;
+    self.inputView.delegate = self;
     
     [self.view addSubview:self.tableview];
+    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0,CGRectGetHeight(self.inputView.frame), 0.0);
+    self.tableview.contentInset = contentInsets;
+    self.tableview.scrollIndicatorInsets = contentInsets;
+    //self.edgesForExtendedLayout = UIRectEdgeNone ;
     self.msgMng = [[MessageMng alloc] init];
     MessageEntity* m1 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"id1" msgDest:@"test2" msgContent:@"fasljjl"];
     MessageEntity* m2 = [[MessageEntity alloc ]initWithMsgId:@"1" msgType:MessageType_Text msgTime:333333 msgSrc:@"id2" msgDest:@"test2" msgContent:@"faslfasdfsadfasdfasdfasdfafjjl"];
@@ -50,12 +59,28 @@
     [self.msgMng addMessage:m2];
     [self.msgMng addMessage:m3];
     [self.msgMng addMessage:m4];
+    
     [self.msgMng addMessage:m5];
+    [self.msgMng addMessage:m5];
+    [self.msgMng addMessage:m2];
+    [self.msgMng addMessage:m3];
+    [self.msgMng addMessage:m4];
+    [self.msgMng addMessage:m5];
+    [self.msgMng addMessage:m5];
+    
 
     [Player shareInstance].uid = @"me";
+    UITapGestureRecognizer *panGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap:)];
+    [self.view addGestureRecognizer:panGesture];
 
 
-
+}
+- (void)didTap:(UITapGestureRecognizer *)panGesture
+{
+    NSLog(@"11--%@", panGesture.view);
+    if (self.inputView) {
+        [self.inputView isAndResignFirstResponder];
+    }
 }
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -116,6 +141,34 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+#pragma mark - InputeViewDelegate
+- (void)inputView:(InputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom{
+    NSLog(@"--inpute fram-%@---%f", NSStringFromCGRect(inputView.frame), heightToBottom);
+    UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, MAX(CGRectGetHeight(inputView.frame), heightToBottom), 0.0);;
+    self.tableview.contentInset = contentInsets;
+    self.tableview.scrollIndicatorInsets = contentInsets;
+    //调整内容
+    static BOOL keyboard_is_down = YES;
+    static CGPoint keyboard_down_ContentOffset;
+    static CGFloat keyboard_down_InputViewHeight;
+    if (heightToBottom > CGRectGetHeight(inputView.frame)) {
+        if (keyboard_is_down) {
+            keyboard_down_ContentOffset = self.tableview.contentOffset;
+            keyboard_down_InputViewHeight = CGRectGetHeight(inputView.frame);
+        }
+        keyboard_is_down = NO;
+        
+        CGPoint contentOffset = keyboard_down_ContentOffset;
+        CGFloat spaceHeight = MAX(0, CGRectGetHeight(self.tableview.frame) - self.tableview.contentSize.height - keyboard_down_InputViewHeight);
+        CGFloat navHeight = self.navigationController.navigationBar.frame.size.height;
+        NSLog(@"%@---%@---%@",NSStringFromCGPoint(self.tableview.contentOffset), NSStringFromCGRect(self.tableview.frame), NSStringFromCGSize(self.tableview.contentSize));
+        contentOffset.y += MAX(0, heightToBottom - keyboard_down_InputViewHeight - spaceHeight)-navHeight;
+        NSLog(@"\n%@spaceHeight:%.2f heightToBottom:%.2f diff:%.2f Y:%.2f,,%@", NSStringFromCGPoint(self.tableview.contentOffset),spaceHeight, heightToBottom, MAX(0, heightToBottom - CGRectGetHeight(inputView.frame) - spaceHeight), contentOffset.y,self.tableview.contentInset);
+        self.tableview.contentOffset = contentOffset;
+    }else{
+        keyboard_is_down = YES;
+    }
 }
 
 /*

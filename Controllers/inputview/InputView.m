@@ -3,6 +3,8 @@
 #import "UIView+Frame.h"
 #import <Masonry/Masonry.h>
 #import "UIColor+expanded.h"
+#import "InputViewVoice.h"
+#import "InputViewAdd.h"
 #define kInputView_Height 50.0
 #define kInputView_Width_Tool 35.0
 #define kInputView_Gap_Tool 7.0
@@ -10,11 +12,13 @@
 
 
 
-@interface InputView ()
+@interface InputView () 
 @property (assign, nonatomic) InputViewType inputviewType;
 @property (assign, nonatomic) InputViewStatus inputviewStatus;
 @property (strong, nonatomic) UIButton *addButton, *emotionButton,  *voiceButton;
 @property (strong, nonatomic) UITextView *inputTextView;
+@property (strong, nonatomic) InputViewVoice *inputViewVoice;
+@property (strong, nonatomic) InputViewAdd *inputViewAdd;
 @property (copy, nonatomic) NSString *placeHolder;
 @end
 
@@ -121,11 +125,13 @@
         return;
     }
     [self setY:kScreen_Height];
-    [kKeyWindow addSubview:self];
+    [kKeyWindow addSubview:self]; 
+    [kKeyWindow addSubview:self.inputViewVoice];
+    [kKeyWindow addSubview:self.inputViewAdd];
     /*
     [kKeyWindow addSubview:_emojiKeyboardView];
     [kKeyWindow addSubview:_addKeyboardView];
-    [kKeyWindow addSubview:_voiceKeyboardView];
+    
     */
    // [self isAndResignFirstResponder];
     self.inputviewStatus = InputViewStatus_System;
@@ -149,19 +155,24 @@
     	/*
         [_emojiKeyboardView removeFromSuperview];
         [_addKeyboardView removeFromSuperview];
-        [_voiceKeyboardView removeFromSuperview];
-        [self removeFromSuperview];
+        
+        
         */
+        [self.inputViewVoice removeFromSuperview];
+        [self.inputViewAdd removeFromSuperview];
+        [self removeFromSuperview];
     }];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 - (BOOL)isAndResignFirstResponder{
 	if (self.inputviewStatus == InputViewStatus_Add || self.inputviewStatus == InputViewStatus_Voice || self.inputviewStatus == InputViewStatus_Emotion) {
         [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
+            
+            [self.inputViewVoice setY:kScreen_Height];
+            [self.inputViewAdd setY:kScreen_Height];
         	/*
             [_emojiKeyboardView setY:kScreen_Height];
-            [_addKeyboardView setY:kScreen_Height];
-            [_voiceKeyboardView setY:kScreen_Height];
+            
             if (self.isAlwaysShow) {
                 [self setY:kScreen_Height- CGRectGetHeight(self.frame)];
             }else{
@@ -220,6 +231,15 @@
              break;
 
 	 }
+
+     if (self.voiceButton && !self.inputViewVoice){
+        self.inputViewVoice = [[InputViewVoice alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, kKeyboardView_Height)];
+
+     }
+     if (self.addButton && !self.inputViewAdd){
+        self.inputViewAdd = [[InputViewAdd alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, kKeyboardView_Height)];
+
+     }
 
 	
 
@@ -296,8 +316,8 @@
         endY = kScreen_Height - kKeyboardView_Height;
     }
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-//        [_emojiKeyboardView setY:endY];
-//        [_addKeyboardView setY:kScreen_Height];
+          [self.inputViewVoice setY:endY];
+          [self.inputViewAdd setY:kScreen_Height];        
 //        [_voiceKeyboardView setY:kScreen_Height];
         if (ABS(kScreen_Height - endY) > 0.1) {
             [self setY:endY- CGRectGetHeight(self.frame)];
@@ -316,8 +336,8 @@
         endY = kScreen_Height - kKeyboardView_Height;
     }
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-        //        [_emojiKeyboardView setY:endY];
-        //        [_addKeyboardView setY:kScreen_Height];
+                [self.inputViewVoice setY:kScreen_Height];
+                [self.inputViewAdd setY:kScreen_Height];    
         //        [_voiceKeyboardView setY:kScreen_Height];
         if (ABS(kScreen_Height - endY) > 0.1) {
             [self setY:endY- CGRectGetHeight(self.frame)];
@@ -336,8 +356,8 @@
         endY = kScreen_Height - kKeyboardView_Height;
     }
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-        //        [_emojiKeyboardView setY:endY];
-        //        [_addKeyboardView setY:kScreen_Height];
+                  [self.inputViewAdd setY:endY];
+                  [self.inputViewVoice setY:kScreen_Height];
         //        [_voiceKeyboardView setY:kScreen_Height];
         if (ABS(kScreen_Height - endY) > 0.1) {
             [self setY:endY- CGRectGetHeight(self.frame)];

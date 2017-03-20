@@ -13,7 +13,7 @@ typedef NS_ENUM(NSInteger, InputViewStatus) {
     InputViewStatus_Voice
 };
 @protocol InputViewDelegate;
-@interface InputView : UIView<UITextViewDelegate>
+@interface InputView : UIControl<UITextViewDelegate>
 @property (assign, nonatomic) BOOL isAlwaysShow;
 @property (nonatomic, weak) id<InputViewDelegate> delegate;
 + (instancetype)inputViewWithType:(InputViewType)type placeHolder:(NSString *)placeHolder;

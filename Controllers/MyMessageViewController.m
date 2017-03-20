@@ -164,7 +164,7 @@
         CGFloat navHeight = self.navigationController.navigationBar.frame.size.height;
         NSLog(@"%@---%@---%@",NSStringFromCGPoint(self.tableview.contentOffset), NSStringFromCGRect(self.tableview.frame), NSStringFromCGSize(self.tableview.contentSize));
         contentOffset.y += MAX(0, heightToBottom - keyboard_down_InputViewHeight - spaceHeight)-navHeight;
-        NSLog(@"\n%@spaceHeight:%.2f heightToBottom:%.2f diff:%.2f Y:%.2f,,%@", NSStringFromCGPoint(self.tableview.contentOffset),spaceHeight, heightToBottom, MAX(0, heightToBottom - CGRectGetHeight(inputView.frame) - spaceHeight), contentOffset.y,self.tableview.contentInset);
+        NSLog(@"\n[%f,%f]spaceHeight:%.2f heightToBottom:%.2f diff:%.2f Y:%.2f,", self.tableview.contentOffset.x,self.tableview.contentOffset.y,spaceHeight, heightToBottom, MAX(0, heightToBottom - CGRectGetHeight(inputView.frame) - spaceHeight), contentOffset.y);
         self.tableview.contentOffset = contentOffset;
     }else{
         keyboard_is_down = YES;

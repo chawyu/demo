@@ -21,7 +21,8 @@
             [_volumes addObject:@0];
             
             UIView *volumeView = [[UIView alloc] initWithFrame:CGRectMake((kAudioVolumeViewVolumeWidth+kAudioVolumeViewVolumePadding)*i, (self.frame.size.height-kAudioVolumeViewVolumeMinHeight)/2, kAudioVolumeViewVolumeWidth, kAudioVolumeViewVolumeMinHeight)];
-            volumeView.backgroundColor = kColorCommonBG;
+            
+            volumeView.backgroundColor = [UIColor colorWithRGBHex:0xfb8638];
             volumeView.layer.cornerRadius = volumeView.frame.size.width/2;
             [self addSubview:volumeView];
             [_volumeViews addObject:volumeView];
@@ -40,6 +41,13 @@
     else {
         [_volumes removeObjectAtIndex:0];
         [_volumes addObject:[NSNumber numberWithDouble:volume]];
+    }
+    [self layoutVolumes];
+}
+- (void)clearVolume {
+    [_volumes removeAllObjects];
+    for (int i = 0; i < _volumeViews.count; i++) {
+        [_volumes addObject:@0];
     }
     [self layoutVolumes];
 }

@@ -5,6 +5,7 @@
 #import "UIColor+expanded.h"
 #import "InputViewVoice.h"
 #import "InputViewAdd.h"
+#import "AGEmojiKeyBoardView.h"
 #define kInputView_Height 50.0
 #define kInputView_Width_Tool 35.0
 #define kInputView_Gap_Tool 7.0
@@ -12,7 +13,8 @@
 
 
 
-@interface InputView () 
+@interface InputView () <AGEmojiKeyboardViewDelegate, AGEmojiKeyboardViewDataSource>
+@property (strong, nonatomic) AGEmojiKeyboardView *emojiKeyboardView;
 @property (assign, nonatomic) InputViewType inputviewType;
 @property (assign, nonatomic) InputViewStatus inputviewStatus;
 @property (strong, nonatomic) UIButton *addButton, *emotionButton,  *voiceButton;
@@ -105,10 +107,10 @@
     if (self.inputviewStatus != InputViewStatus_System) {
         self.inputviewStatus = InputViewStatus_System;
         [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
-            /*
-            [_emojiKeyboardView setY:kScreen_Height];
-            [_addKeyboardView setY:kScreen_Height];
-            [_voiceKeyboardView setY:kScreen_Height];*/
+            
+            [self.emojiKeyboardView setY:kScreen_Height];
+            [self.inputViewVoice setY:kScreen_Height];
+            [self.inputViewAdd setY:kScreen_Height];
         } completion:^(BOOL finished) {
             self.inputviewStatus = InputViewStatus_System;
         }];
@@ -181,11 +183,8 @@
     [kKeyWindow addSubview:self]; 
     [kKeyWindow addSubview:self.inputViewVoice];
     [kKeyWindow addSubview:self.inputViewAdd];
-    /*
-    [kKeyWindow addSubview:_emojiKeyboardView];
-    [kKeyWindow addSubview:_addKeyboardView];
-    
-    */
+    [kKeyWindow addSubview:self.emojiKeyboardView];
+   
    // [self isAndResignFirstResponder];
     self.inputviewStatus = InputViewStatus_System;
     if (_isAlwaysShow && ![self isCustomFirstResponder]) {
@@ -205,14 +204,10 @@
     [UIView animateWithDuration:0.25 delay:0.0 options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
         [self setY:kScreen_Height];
     } completion:^(BOOL finished) {
-    	/*
-        [_emojiKeyboardView removeFromSuperview];
-        [_addKeyboardView removeFromSuperview];
-        
-        
-        */
+    	
         [self.inputViewVoice removeFromSuperview];
         [self.inputViewAdd removeFromSuperview];
+        [self.emojiKeyboardView removeFromSuperview];
         [self removeFromSuperview];
     }];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -223,10 +218,9 @@
             
             [self.inputViewVoice setY:kScreen_Height];
             [self.inputViewAdd setY:kScreen_Height];
-        	/*
-            [_emojiKeyboardView setY:kScreen_Height];
+            [self.emojiKeyboardView setY:kScreen_Height];
  
-            */
+            
 
             if (self.isAlwaysShow) {
                 [self setY:kScreen_Height- kInputView_Height];
@@ -295,6 +289,13 @@
         self.inputViewAdd = [[InputViewAdd alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, kKeyboardView_Height)];
 
      }
+
+     //emotion
+    if (self.emotionButton && !self.emojiKeyboardView) {
+        self.emojiKeyboardView = [[AGEmojiKeyboardView alloc] initWithFrame:CGRectMake(0, 0, kScreen_Width, kKeyboardView_Height) dataSource:self showBigEmotion:NO];
+        self.emojiKeyboardView.delegate = self;
+        [self.emojiKeyboardView setY:kScreen_Height];
+    }
      [self addTarget:self action:@selector(onTouchDown:) forControlEvents:UIControlEventTouchDown];
 
 	
@@ -344,6 +345,7 @@
             make.bottom.mas_equalTo(-kInputView_Gap_Tool);
             make.left.mas_equalTo(kInputView_Gap_Tool);
         }];
+        
         [self.inputTextView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(kInputView_Gap_Tool);
             make.bottom.mas_equalTo(-kInputView_Gap_Tool);
@@ -379,7 +381,7 @@
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
           [self.inputViewVoice setY:endY];
           [self.inputViewAdd setY:kScreen_Height];        
-//        [_voiceKeyboardView setY:kScreen_Height];
+          [self.emojiKeyboardView setY:kScreen_Height];
         if (ABS(kScreen_Height - endY) > 0.1) {
             [self setY:endY- CGRectGetHeight(self.frame)];
         }
@@ -399,7 +401,7 @@
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
                 [self.inputViewVoice setY:kScreen_Height];
                 [self.inputViewAdd setY:kScreen_Height];    
-        //        [_voiceKeyboardView setY:kScreen_Height];
+                [self.emojiKeyboardView setY:endY];
         if (ABS(kScreen_Height - endY) > 0.1) {
             [self setY:endY- CGRectGetHeight(self.frame)];
         }
@@ -419,12 +421,57 @@
     [UIView animateWithDuration:0.25 delay:0.0f options:UIViewAnimationOptionTransitionFlipFromBottom animations:^{
                   [self.inputViewAdd setY:endY];
                   [self.inputViewVoice setY:kScreen_Height];
-        //        [_voiceKeyboardView setY:kScreen_Height];
+                  [self.emojiKeyboardView setY:kScreen_Height];
         if (ABS(kScreen_Height - endY) > 0.1) {
             [self setY:endY- CGRectGetHeight(self.frame)];
         }
     } completion:^(BOOL finished) {
     }];
+}
+
+#pragma mark AGEmojiKeyboardView
+
+- (void)emojiKeyBoardView:(AGEmojiKeyboardView *)emojiKeyBoardView didUseEmoji:(NSString *)emoji {
+    /*
+    NSString *emotion_monkey = [emoji emotionMonkeyName];
+    if (emotion_monkey) {
+        emotion_monkey = [NSString stringWithFormat:@" :%@: ", emotion_monkey];
+        if (_delegate && [_delegate respondsToSelector:@selector(messageInputView:sendBigEmotion:)]) {
+            [self.delegate messageInputView:self sendBigEmotion:emotion_monkey];
+        }
+    }else{
+        [self.inputTextView insertText:emoji];
+    }*/
+    [self.inputTextView insertText:emoji];
+}
+
+- (void)emojiKeyBoardViewDidPressBackSpace:(AGEmojiKeyboardView *)emojiKeyBoardView {
+    [self.inputTextView deleteBackward];
+}
+
+- (void)emojiKeyBoardViewDidPressSendButton:(AGEmojiKeyboardView *)emojiKeyBoardView{
+    //[self sendTextStr];
+}
+
+- (UIImage *)emojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView imageForSelectedCategory:(AGEmojiKeyboardViewCategoryImage)category {
+    UIImage *img;
+    if (category == AGEmojiKeyboardViewCategoryImageEmoji) {
+        img = [UIImage imageNamed:@"keyboard_emotion_emoji"];
+    }else if (category == AGEmojiKeyboardViewCategoryImageMonkey){
+        img = [UIImage imageNamed:@"keyboard_emotion_monkey"];
+    }else{
+        img = [UIImage imageNamed:@"keyboard_emotion_monkey_gif"];
+    }
+    return img;
+}
+
+- (UIImage *)emojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView imageForNonSelectedCategory:(AGEmojiKeyboardViewCategoryImage)category {
+    return [self emojiKeyboardView:emojiKeyboardView imageForSelectedCategory:category];
+}
+
+- (UIImage *)backSpaceButtonImageForEmojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView {
+    UIImage *img = [UIImage imageNamed:@"keyboard_emotion_delete"];
+    return img;
 }
 @end
 

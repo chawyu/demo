@@ -8,23 +8,34 @@
 
 #ifndef prefix_pch
 #define prefix_pch
-//#import <UIKit/UIKit.h>
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Masonry/Masonry.h>
+#import "UIColor+expanded.h"
+#import "UIImage+Common.h"
+#import "UIView+Frame.h"
+#import "UIView+Common.h"
+#endif
 //#import <Foundation/Foundation.h>
 /*
-#import <Masonry/Masonry.h>
+
+
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
 
 */
+
 //------------------COLOR-----------------------------------
 
 #define kKeyWindow [UIApplication sharedApplication].keyWindow
 #define kScreen_Bounds [UIScreen mainScreen].bounds
 #define kScreen_Height [UIScreen mainScreen].bounds.size.height
 #define kScreen_Width [UIScreen mainScreen].bounds.size.width 
-#define kColorCommonBG [UIColor colorWithHexString:@"0xF8F8F8"];
-#define kColorCommonFont [UIColor colorWithHexString:@"0x666666"];
+#define kColorCommonBG [UIColor colorWithHexString:@"0xF8F8F8"]
+#define kColorCommonFont [UIColor colorWithHexString:@"0x666666"]
+#define kColorDDD [UIColor colorWithHexString:@"0xDDDDDD"]
+#define kColorCCC [UIColor colorWithHexString:@"0xCCCCCC"]
 #define kKeyboardView_Height 216.0
 #define kPaddingLeftWidth 15.0
 #endif /* prefix_pch */

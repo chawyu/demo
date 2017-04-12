@@ -131,6 +131,51 @@
     }
     return YES;
 }
+- (void)sendTextStr{
+   // [self deleteInputData];
+    NSMutableString *sendStr = [NSMutableString stringWithString:self.inputTextView.text];
+    /*
+    if (_mediaList.count > 0) {
+        [_mediaList enumerateObjectsUsingBlock:^(UIMessageInputView_Media *obj, NSUInteger idx, BOOL *stop) {
+            [sendStr appendFormat:@"\n![图片](%@)", obj.urlStr];
+        }];
+    }
+    */
+    if (sendStr && ![sendStr isEmpty] && _delegate && [_delegate respondsToSelector:@selector(inputView:sendText:)]) {
+        [self.delegate inputView:self sendText:sendStr];
+    }
+    //[_mediaList removeAllObjects];
+    self.inputTextView.selectedRange = NSMakeRange(0, self.inputTextView.text.length);
+    [self.inputTextView insertText:@""];
+   // [self updateContentViewBecauseOfMedia:NO];
+}
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
+    if ([text isEqualToString:@"\n"]) {
+        /*
+        if (![self.inputTextView.text hasListenChar]) {
+            [self sendTextStr];
+        }
+        */
+        [self sendTextStr];
+        return NO;
+    }
+    /*else if ([text isEqualToString:@"@"]){
+        __weak typeof(self) weakSelf = self;
+        if (self.curProject) {
+            //@项目成员
+            [ProjectMemberListViewController showATSomeoneWithBlock:^(User *curUser) {
+                [weakSelf atSomeUser:curUser inTextView:textView andRange:range];
+            } withProject:self.curProject];
+        }else{
+            //@好友
+            [UsersViewController showATSomeoneWithBlock:^(User *curUser) {
+                [weakSelf atSomeUser:curUser inTextView:textView andRange:range];
+            }];
+        }
+        return NO;
+    }*/
+    return YES;
+}
 #pragma mark - KeyBoard Notification Handlers
 - (void)keyboardChange:(NSNotification*)aNotification{
     if ([aNotification name] == UIKeyboardDidChangeFrameNotification) {
@@ -280,13 +325,18 @@
              break;
 
 	 }
-
+     __weak typeof(self) weakSelf = self;
      if (self.voiceButton && !self.inputViewVoice){
         self.inputViewVoice = [[InputViewVoice alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, kKeyboardView_Height)];
 
      }
      if (self.addButton && !self.inputViewAdd){
         self.inputViewAdd = [[InputViewAdd alloc] initWithFrame:CGRectMake(0, kScreen_Height, kScreen_Width, kKeyboardView_Height)];
+        self.inputViewAdd.addIndexBlock = ^(NSInteger index){
+            if ([weakSelf.delegate respondsToSelector:@selector(inputView:addIndexClicked:)]) {
+                [weakSelf.delegate inputView:weakSelf addIndexClicked:index];
+            }
+        };
 
      }
 
@@ -450,7 +500,7 @@
 }
 
 - (void)emojiKeyBoardViewDidPressSendButton:(AGEmojiKeyboardView *)emojiKeyBoardView{
-    //[self sendTextStr];
+    [self sendTextStr];
 }
 
 - (UIImage *)emojiKeyboardView:(AGEmojiKeyboardView *)emojiKeyboardView imageForSelectedCategory:(AGEmojiKeyboardViewCategoryImage)category {

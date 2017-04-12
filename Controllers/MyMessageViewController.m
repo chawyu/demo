@@ -142,7 +142,31 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (void)sendPrivateMessage:(id)obj{
+    PrivateMessage *nextMsg = [PrivateMessage privateMessageWithObj:obj andFriend:_myPriMsgs.curFriend];
+    [self sendPrivateMessageWithMsg:nextMsg];
+}
 #pragma mark - InputeViewDelegate
+- (void)inputView:(InputView *)inputView sendText:(NSString *)text{
+    //[self sendPrivateMessage:text];
+}
+
+- (void)inputView:(InputView *)inputView sendBigEmotion:(NSString *)emotionName{
+    //[self sendPrivateMessage:emotionName];
+}
+
+- (void)inputView:(InputView *)inputView sendVoice:(NSString *)file duration:(NSTimeInterval)duration {
+    /*
+    VoiceMedia *vm = [[VoiceMedia alloc] init];
+    vm.file = file;
+    vm.duration = duration;
+    [self sendPrivateMessage:vm];
+    */
+}
+
+- (void)inputView:(InputView *)inputView addIndexClicked:(NSInteger)index{
+   // [self inputViewAddIndex:index];
+}
 - (void)inputView:(InputView *)inputView heightToBottomChenged:(CGFloat)heightToBottom{
     NSLog(@"--inpute fram-%@---%f", NSStringFromCGRect(inputView.frame), heightToBottom);
     UIEdgeInsets contentInsets= UIEdgeInsetsMake(0.0, 0.0, MAX(CGRectGetHeight(inputView.frame), heightToBottom), 0.0);;

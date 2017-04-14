@@ -10,6 +10,7 @@
 #import <Masonry/Masonry.h>
 #import "MessageMng.h"
 #import "MessageEntity.h"
+#import "RecentEntity.h"
 #import "MessageTextCell.h"
 #import "Player.h"
 #import "UserEntity.h"

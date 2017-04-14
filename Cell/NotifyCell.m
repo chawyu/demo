@@ -8,6 +8,8 @@
 
 #import "NotifyCell.h"
 #import "UserEntity.h"
+#import "RecentEntity.h"
+#import "UserMng.h"
 @interface NotifyCell ()
 @property (strong, nonatomic) UIImageView* icon;
 @property (strong, nonatomic) UILabel* name, *context, *time;
@@ -36,7 +38,7 @@
         if (!self.context) {
             self.context = [[UILabel alloc] initWithFrame:CGRectMake(75, 30, 200, 25)];
             self.context.font = [UIFont systemFontOfSize:17];
-            self.context.text = self.myname;
+            //self.context.text = self.myname;
             [self.contentView addSubview:self.context];
             
         }
@@ -44,10 +46,19 @@
     return self;
 }
 
--(void)setUser:(UserEntity*)user{
-    [self.name setText:user.name];
-    [self.context setText:user.uid];
-    [self.icon setImage:[UIImage imageNamed:@"my_selected"]];
+-(void)setUser:(RecentEntity*)recent{
+    if(user.userType == UserType_Player){
+        UserEntity* user = [[UserMng shareInstance]getUser:recent.uid];
+        if (user){
+                [self.name setText:user.name];
+                [self.context setText:user.uid];
+                [self.icon setImage:[UIImage imageNamed:@"my_selected"]];
+        }
+
+    }else if(user.userType == UserType_System){
+
+    }
+
 
 }
 

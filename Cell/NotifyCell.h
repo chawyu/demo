@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RecentEntity.h"
+
 #define CellIdentifier_NotifyCell @"CellIdentifier_NotifyCell"
 
 typedef NS_ENUM(NSInteger, NotifyCellType) {

@@ -89,7 +89,7 @@
     if (self) {
         // Initialization code
         self.backgroundColor = kColorCommonBG;
-        self.backgroundColor = [UIColor clearColor];
+        //self.backgroundColor = [UIColor clearColor];
         self.inputviewStatus = InputViewStatus_System;
         self.isAlwaysShow = NO;
         UITapGestureRecognizer *panGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didPan:)];

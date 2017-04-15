@@ -143,8 +143,8 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)sendPrivateMessage:(id)obj{
-    PrivateMessage *nextMsg = [PrivateMessage privateMessageWithObj:obj andFriend:_myPriMsgs.curFriend];
-    [self sendPrivateMessageWithMsg:nextMsg];
+    //PrivateMessage *nextMsg = [PrivateMessage privateMessageWithObj:obj andFriend:_myPriMsgs.curFriend];
+    //[self sendPrivateMessageWithMsg:nextMsg];
 }
 #pragma mark - InputeViewDelegate
 - (void)inputView:(InputView *)inputView sendText:(NSString *)text{

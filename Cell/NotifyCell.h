@@ -7,17 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "RecentEntity.h"
 #define CellIdentifier_NotifyCell @"CellIdentifier_NotifyCell"
 
 typedef NS_ENUM(NSInteger, NotifyCellType) {
     NotifyCellTypeNone = 0,
     NotifyCellTypeAt,
 };
-@class UserEntity;
+@class RecentEntity;
 @interface NotifyCell : UITableViewCell
 @property (assign, nonatomic) NotifyCellType;
--(void)setUser:(UserEntity*)user;
+-(void)setUser:(RecentEntity *)user;
 + (CGFloat) cellHeight;
 
 @end

@@ -7,13 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "UserEntity.h"
-@interface UserMng : NSObject
+
+@class RecentEntity;
+@interface RecentMng : NSObject
 + (instancetype)shareInstance;
 - (id)init;
-- (void)addNewUser:(UserEntity*)user;
-- (NSArray*)getAllUsers;
-- (UserEntity*)getUser:(NSString*)uid;
-- (NSMutableDictionary*)getKeyDictionary;
+- (void)addNewRecent:(RecentEntity*)user;
+- (NSArray*)getAllRecent;
+- (RecentEntity*)getRecent:(NSString*)uid;
 - (void)test;
+
 @end

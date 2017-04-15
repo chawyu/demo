@@ -13,6 +13,31 @@
 @end
 
 @implementation UserMng
+- (void)test{
+    for (int i=0; i<30; ++i) {
+        UserEntity* user = [[UserEntity alloc] initWithName:[NSString stringWithFormat:@"name%lu", (unsigned long)arc4random_uniform(10)]];
+        user.uid = [NSString stringWithFormat:@"id%d", i];
+        user.lastUpdateTime = arc4random_uniform(10);
+        user.name = [NSString stringWithFormat:@"name%d", i];
+        user.userType = UserType_Player;
+        [self addNewUser:user];
+    }
+    UserEntity* user = [[UserEntity alloc] init];
+    user.uid = @"me";
+    user.lastUpdateTime = 100;
+    user.name = @"周维";
+    user.userType = UserType_Player;
+    [self addNewUser:user];
+    
+    
+    UserEntity* user1 = [[UserEntity alloc] init];
+    user1.uid = @"t2";
+    user1.lastUpdateTime = 100;
+    user1.name = @"about";
+    user1.userType = UserType_Player;
+    [self addNewUser:user1];
+
+}
 + (instancetype)shareInstance
 {
     static UserMng* g_UserMng;

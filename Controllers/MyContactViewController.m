@@ -29,14 +29,7 @@
     self.tableview.sectionIndexTrackingBackgroundColor = [UIColor clearColor];
     self.tableview.sectionIndexColor = [UIColor redColor];
     [self.view addSubview:self.tableview];
-//    for (int i=0; i<30; ++i) {
-//        UserEntity* user = [[UserEntity alloc] init];
-//        user.uid = [NSString stringWithFormat:@"fasdfasd发牢骚肯德基法拉盛剪短发拉圣诞节福利解放路撒两地分居拉速度放假啦水电费%d", i];
-//        
-//        user.lastUpdateTime = arc4random_uniform(10);
-//        user.name = [NSString stringWithFormat:@"name%lu", (unsigned long)user.lastUpdateTime];
-//        [[UserMng shareInstance]addNewUser:user];
-//    }
+
     self.contactData = [[UserMng shareInstance] getKeyDictionary];
     NSArray* array = [NSArray arrayWithArray: [self.contactData allKeys]];
     self.contactArray = [array sortedArrayUsingComparator:^(id  _Nonnull obj1, id  _Nonnull obj2) {
@@ -99,6 +92,11 @@
 }
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ContactCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier_ContactCell forIndexPath:indexPath];
+    if (!cell)
+    {
+        cell = [[ContactCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier_ContactCell];
+       
+    }
     NSArray* array = [self.contactData objectForKey:
                       [self.contactArray objectAtIndex:indexPath.section]];
     UserEntity* user = array[indexPath.row];

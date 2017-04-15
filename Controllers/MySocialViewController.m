@@ -36,9 +36,9 @@
     return [NotifyCell cellHeight];
 }
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NotifyCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier_NotifyCell forIndexPath:indexPath];
-    UserEntity* user = self.list[indexPath.row];
-    [cell setUser:user];
+   NotifyCell* cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier_NotifyCell forIndexPath:indexPath];
+   // UserEntity* user = self.list[indexPath.row];
+   // [cell setUser:user];
     return cell;
 }
 /*

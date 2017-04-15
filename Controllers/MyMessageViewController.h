@@ -8,8 +8,8 @@
 
 #import "BaseViewController.h"
 #import "InputView.h"
-@class UserEntity;
+@class RecentEntity;
 @interface MyMessageViewController : BaseViewController<UITableViewDataSource, UITabBarDelegate, InputViewDelegate>
-@property (strong, nonatomic) UserEntity* user;
+@property (strong, nonatomic) RecentEntity* user;
 
 @end

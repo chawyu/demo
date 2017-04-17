@@ -47,7 +47,9 @@
 }
 
 -(void)setUser:(RecentEntity*)recent{
-    if(user.userType == UserType_Player){
+
+    if(recent.userType == UserType_Player){
+
         UserEntity* user = [[UserMng shareInstance]getUser:recent.uid];
         if (user){
                 [self.name setText:user.name];
@@ -55,7 +57,9 @@
                 [self.icon setImage:[UIImage imageNamed:@"my_selected"]];
         }
 
-    }else if(user.userType == UserType_System){
+
+    }else if(recent.userType == UserType_System){
+
 
     }
 

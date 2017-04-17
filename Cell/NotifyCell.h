@@ -17,7 +17,7 @@ typedef NS_ENUM(NSInteger, NotifyCellType) {
 @class RecentEntity;
 @interface NotifyCell : UITableViewCell
 @property (assign, nonatomic) NotifyCellType;
--(void)setUser:(UserEntity*)user;
+-(void)setUser:(RecentEntity *)user;
 + (CGFloat) cellHeight;
 
 @end

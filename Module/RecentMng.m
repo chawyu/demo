@@ -53,8 +53,9 @@
     if (!self.allRecents) {
         self.allRecents = [[NSMutableDictionary alloc] init];
     }
-    
-    [self.allRecents setObject:recent forKey:user.uid];
+
+    [self.allRecents setObject:recent forKey:recent.uid];
+
 }
 - (RecentEntity*)getRecent:(NSString*)uid{
     return [self.allRecents objectForKey:uid];

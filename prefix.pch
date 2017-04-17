@@ -15,6 +15,7 @@
 #import "UIImage+Common.h"
 #import "UIView+Frame.h"
 #import "UIView+Common.h"
+#import "NSString+Common.h"
 #endif
 //#import <Foundation/Foundation.h>
 /*

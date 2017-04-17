@@ -23,6 +23,8 @@
 @property (strong, nonatomic) MessageMng* msgMng;
 
 
+
+
 @end
 
 @implementation MyMessageViewController
@@ -143,6 +145,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 #pragma mark - sendMessage
 - (void)sendMessage:(id)obj{
     MessageEntity *msg = [MessageMng createMessageEntity:obj withUid:self.uid];

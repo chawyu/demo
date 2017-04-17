@@ -143,13 +143,28 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-- (void)sendPrivateMessage:(id)obj{
-    PrivateMessage *nextMsg = [PrivateMessage privateMessageWithObj:obj andFriend:_myPriMsgs.curFriend];
-    [self sendPrivateMessageWithMsg:nextMsg];
+#pragma mark - sendMessage
+- (void)sendMessage:(id)obj{
+    MessageEntity *msg = [MessageMng createMessageEntity:obj withUid:self.uid];
+    [self sendMessageWithEntity:msg];
+}
+- (void)sendMessageWithEntity:(MessageEntity *)msg{
+    [self.msgMng addMessage:msg];
+    [self dataChangedWithError:NO scrollToBottom:YES animated:YES];
+}
+- (void)dataChangedWithError:(BOOL)hasError scrollToBottom:(BOOL)scrollToBottom animated:(BOOL)animated{
+    [self.tableview reloadData];
+    if (scrollToBottom) {
+        [self scrollToBottomAnimated:animated];
+    }
+    __weak typeof(self) weakSelf = self;
+    [self.view configBlankPage:EaseBlankPageType_Message hasData:(self.msgMng.messageArray.count > 0) hasError:hasError reloadButtonBlock:^(id sender) {
+        //[weakSelf refreshLoadMore:NO];
+    }];
 }
 #pragma mark - InputeViewDelegate
 - (void)inputView:(InputView *)inputView sendText:(NSString *)text{
-    //[self sendPrivateMessage:text];
+    [self sendMessage:text];
 }
 
 - (void)inputView:(InputView *)inputView sendBigEmotion:(NSString *)emotionName{

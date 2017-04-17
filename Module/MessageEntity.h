@@ -7,6 +7,11 @@
 //
 
 #import "BaseEntity.h"
+typedef NS_ENUM(NSInteger, MessageStatusType) {
+    MessageStatusType_Success = 0,
+    MessageStatusType_Sending,
+    MessageStatusType_Failed
+};
 typedef NS_ENUM(NSUInteger, MessageType) {
     MessageType_Text,
     MessageType_Image,
@@ -19,5 +24,7 @@ typedef NS_ENUM(NSUInteger, MessageType) {
 @property(nonatomic, copy) NSString* destId;
 @property(nonatomic, copy) NSString* msgContent;
 @property(nonatomic, assign) NSTimeInterval msgTime;
+@property(nonatomic, assign) MessageStatusType msgStatus;
+
 -(MessageEntity*)initWithMsgId:(NSString*)msgId msgType:(MessageType)msgType msgTime:(NSTimeInterval)msgTime msgSrc:(NSString*)srcId msgDest:(NSString*)destId msgContent:(NSString*)content;
 @end

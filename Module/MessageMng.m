@@ -21,6 +21,16 @@
     }
     return self;
 }
++ (instancetype)createMessageEntity:(id)obj withUid:(NSString *)uid{
+	MessageEntity* msg = [[MessageEntity alloc] init];
+	msg.sourceId = [Player shareInstance].uid;
+	msg.destId = uid;
+	msg.msgStatus = MessageStatusType_Sending;
+	msg.msgTime = [[NSDate date] timeIntervalSince1970];
+
+	return msg;
+
+}
 
 -(CGFloat)cellHeightForMessage:(MessageEntity*)message{
 	if(message.msgType == MessageType_Text){

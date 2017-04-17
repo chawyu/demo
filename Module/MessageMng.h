@@ -13,7 +13,7 @@
 @interface MessageMng : NSObject
 @property(nonatomic, strong) UserEntity* user;
 @property(nonatomic, strong) NSMutableArray* messageArray;
-
++ (instancetype)createMessageEntity:(id)obj withUid:(NSString *)uid;
 -(void)addMessage:(MessageEntity*)message;
 -(CGFloat)cellHeightForMessage:(MessageEntity*)message;
 @end

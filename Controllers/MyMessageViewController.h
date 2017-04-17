@@ -13,6 +13,6 @@
 @interface MyMessageViewController : BaseViewController<UITableViewDataSource, UITabBarDelegate, InputViewDelegate>
 //@property (strong, nonatomic) RecentEntity* user;
 @property (strong, nonatomic) NSString * uid;
-- (void)sendMessage:(id)obj
+- (void)sendMessage:(id)obj;
 - (void)sendMessageWithEntity:(MessageEntity *)msg;
 @end

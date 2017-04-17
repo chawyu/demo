@@ -67,7 +67,7 @@ static char LoadingViewKey, BlankPageViewKey;
     }
     return nil;
 }
-
+/*
 - (void)addBadgePoint:(NSInteger)pointRadius withPosition:(BadgePositionType)type {
 
     if(pointRadius < 1)
@@ -164,6 +164,7 @@ static char LoadingViewKey, BlankPageViewKey;
         }
     }
 }
+ */
 - (void)setY:(CGFloat)y{
     CGRect frame = self.frame;
     frame.origin.y = y;

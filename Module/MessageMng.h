@@ -8,12 +8,14 @@
 
 //#import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "MessageEntity.h"
 @class UserEntity;
-@class MessageEntity;
+
 @interface MessageMng : NSObject
 @property(nonatomic, strong) UserEntity* user;
 @property(nonatomic, strong) NSMutableArray* messageArray;
-+ (instancetype)createMessageEntity:(id)obj withUid:(NSString *)uid;
+
++ (instancetype)createMessageEntity:(NSString *)content withUid:(NSString *)uid withType:(MessageType)msgType;
 -(void)addMessage:(MessageEntity*)message;
 -(CGFloat)cellHeightForMessage:(MessageEntity*)message;
 @end

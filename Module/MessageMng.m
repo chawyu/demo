@@ -7,8 +7,9 @@
 //
 
 #import "MessageMng.h"
-#import "MessageEntity.h"
+
 #import "MessageTextCell.h"
+#import "Player.h"
 @interface MessageMng ()
 @property(nonatomic, strong) MessageTextCell* textCell; //for height
 @end
@@ -21,12 +22,14 @@
     }
     return self;
 }
-+ (instancetype)createMessageEntity:(id)obj withUid:(NSString *)uid{
++ (instancetype)createMessageEntity:(NSString *)content withUid:(NSString *)uid withType:(MessageType)msgType{
 	MessageEntity* msg = [[MessageEntity alloc] init];
 	msg.sourceId = [Player shareInstance].uid;
 	msg.destId = uid;
 	msg.msgStatus = MessageStatusType_Sending;
 	msg.msgTime = [[NSDate date] timeIntervalSince1970];
+    msg.msgContent = content;
+    msg.msgType = msgType;
 
 	return msg;
 

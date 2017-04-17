@@ -15,6 +15,7 @@
 #import "Player.h"
 #import "UserEntity.h"
 #import "RDVTabBarController.h"
+#import "UIView+Common.h"
 
 @interface MyMessageViewController ()
 @property (strong, nonatomic) UITableView* tableview;
@@ -148,7 +149,11 @@
 
 #pragma mark - sendMessage
 - (void)sendMessage:(id)obj{
-    MessageEntity *msg = [MessageMng createMessageEntity:obj withUid:self.uid];
+   // MessageEntity *msg = [MessageMng createMessageEntity:obj withUid:self.uid];
+   // [self sendMessageWithEntity:msg];
+}
+- (void)sendMessageText:(NSString*)text{
+    MessageEntity *msg = [MessageMng createMessageEntity:text withUid:self.uid withType:MessageType_Text];
     [self sendMessageWithEntity:msg];
 }
 - (void)sendMessageWithEntity:(MessageEntity *)msg{
@@ -165,9 +170,18 @@
         //[weakSelf refreshLoadMore:NO];
     }];
 }
+- (void)scrollToBottomAnimated:(BOOL)animated
+{
+    NSInteger rows = [self.tableview numberOfRowsInSection:0];
+    if(rows > 0) {
+        [self.tableview scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rows - 1 inSection:0]
+                                atScrollPosition:UITableViewScrollPositionBottom
+                                        animated:animated];
+    }
+}
 #pragma mark - InputeViewDelegate
 - (void)inputView:(InputView *)inputView sendText:(NSString *)text{
-    [self sendMessage:text];
+    [self sendMessageText:text];
 }
 
 - (void)inputView:(InputView *)inputView sendBigEmotion:(NSString *)emotionName{

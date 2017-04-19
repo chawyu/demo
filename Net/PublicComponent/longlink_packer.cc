@@ -52,7 +52,7 @@ namespace stn {
 
 static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmdid, uint32_t& _seq, size_t& _package_len, size_t& _body_len)
 {
-    if (_packed_len < 2) {
+    if (_packed_len < sizeof(uint16_t)+sizeof(uint32_t)*3) {
         _packed_len = 0;
         _body_len = 0;
         return LONGLINK_UNPACK_CONTINUE;
@@ -69,14 +69,20 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
     memcpy(&cmd_id, ((const char*)_packed)+2, sizeof(uint32_t));
     memcpy(&client_version, ((const char*)_packed)+2+4, sizeof(uint32_t));
     memcpy(&seq, ((const char*)_packed)+2+4+4, sizeof(uint32_t));
+    /*
+    if (client_version != sg_client_version) {
+        _package_len = 0;
+        _body_len = 0;
+        return LONGLINK_UNPACK_FALSE;
+    }*/
     
-    _package_len = 2 + head1;
+    _package_len = sizeof(uint16_t) + head1;
     _seq = seq;
-    _body_len = head1-sizeof(uint32_t)*3;
+    _body_len = head1-sizeof(uint32_t)*3-sizeof(uint16_t);
     _cmdid =cmd_id;
  
     
-    if (_package_len > 1024*1024) { return LONGLINK_UNPACK_FALSE; }
+    if (_package_len > 63*1024) { return LONGLINK_UNPACK_FALSE; }
     if (_package_len > _packed_len) { return LONGLINK_UNPACK_CONTINUE; }
     
     
@@ -128,16 +134,12 @@ void longlink_pack(uint32_t _cmdid, uint32_t _seq, const void* _raw, size_t _raw
      */
     uint16_t head1 = 0;
     uint16_t head2 = 0;
-    if (_cmdid == NOOP_CMDID) {
-        head2 = head1 = _raw_len;
-    }else{
-        
-    }
+
     head2 = head1 = _raw_len + sizeof(uint32_t)*3;
     
     
     head1 = (head1<<8) | ((head2>>8) & 0xff) ;
-    _packed.AllocWrite(sizeof(uint16_t) + sizeof(uint32_t) + _raw_len );
+    _packed.AllocWrite(sizeof(uint16_t) + sizeof(uint32_t)*3 + _raw_len );
     _packed.Write(&head1, sizeof(uint16_t));
     _packed.Write(&_cmdid, sizeof(uint32_t));
     _packed.Write(&sg_client_version, sizeof(uint32_t));

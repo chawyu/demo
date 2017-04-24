@@ -19,15 +19,17 @@
 //
 
 
-#import "UINotifyDelegate.h"
-#import "PushNotifyDelegate.h"
+//#import "UINotifyDelegate.h"
+//#import "PushNotifyDelegate.h"
+#import "RespondProtocol.h"
+#import "NoRespondProtocol.h"
 
 @class CGITask;
 
 @protocol NetworkDelegate <NSObject>
 
-@required - (void)addPushObserver:(id<PushNotifyDelegate>)observer withCmdId:(int)cmdId;
-@required - (void)addObserver:(id<UINotifyDelegate>)observer forKey:(NSString *)key;
+@required - (void)addPushObserver:(id<NoRespondProtocol>)observer withCmdId:(int)cmdId;
+@required - (void)addObserver:(id<RespondProtocol>)observer forKey:(NSString *)key;
 @required - (void)addCGITasks:(CGITask*)cgiTask forKey:(NSString *)key;
 
 @required - (BOOL)isAuthed;

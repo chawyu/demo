@@ -78,7 +78,7 @@ static int __unpack_test(const void* _packed, size_t _packed_len, uint32_t& _cmd
     
     _package_len = sizeof(uint16_t) + head1;
     _seq = seq;
-    _body_len = head1-sizeof(uint32_t)*3-sizeof(uint16_t);
+    _body_len = _package_len-sizeof(uint32_t)*3-sizeof(uint16_t);
     _cmdid =cmd_id;
  
     

@@ -106,11 +106,11 @@ static NetworkService * sharedSingleton = nil;
     mars::baseevent::OnDestroy();
 }
 
-- (void)addPushObserver:(id<PushNotifyDelegate>)observer withCmdId:(int)cmdId {
+- (void)addPushObserver:(id<NoRespondProtocol>)observer withCmdId:(int)cmdId {
     [_delegate addPushObserver:observer withCmdId:cmdId];
 }
 
-- (int)startTask:(CGITask *)task ForUI:(id<UINotifyDelegate>)delegateUI {
+- (int)startTask:(CGITask *)task ForUI:(id<RespondProtocol>)delegateUI {
     Task ctask;
     ctask.cmdid = task.cmdid;
     ctask.channel_select = task.channel_select;

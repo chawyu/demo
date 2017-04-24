@@ -39,7 +39,7 @@ void StnCallBack::Release() {
 }
         
 bool StnCallBack::MakesureAuthed() {
-    return true;
+    return false;
 }
 
 
@@ -49,7 +49,7 @@ void StnCallBack::TrafficData(ssize_t _send, ssize_t _recv) {
         
 std::vector<std::string> StnCallBack::OnNewDns(const std::string& _host) {
     std::vector<std::string> vector;
-    vector.push_back("118.89.24.72");
+    //vector.push_back("118.89.24.72");
     return vector;
 }
 
@@ -118,12 +118,12 @@ void StnCallBack::ReportConnectStatus(int _status, int longlink_status) {
 // 不需组件组包，使用长链做一个sync，不用重试
 int  StnCallBack::GetLonglinkIdentifyCheckBuffer(AutoBuffer& _identify_buffer, AutoBuffer& _buffer_hash, int32_t& _cmdid) {
     
-    return IdentifyMode::kCheckNever;
+    return IdentifyMode::kCheckNext;
 }
 
 bool StnCallBack::OnLonglinkIdentifyResponse(const AutoBuffer& _response_buffer, const AutoBuffer& _identify_buffer_hash) {
     
-    return false;
+    return true;
 }
 //
 void StnCallBack::RequestSync() {

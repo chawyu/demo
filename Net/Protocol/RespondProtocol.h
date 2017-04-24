@@ -20,24 +20,46 @@ typedef NSMutableData*(^Pack)(id object);
  */
 - (int)requestTimeOut;
 
+
 /**
  *  请求的serviceID
  *
  *  @return 对应的serviceID
  */
-- (int)requestMsgId;
+//- (int)requestServiceID;
+
+/**
+ *  请求返回的serviceID
+ *
+ *  @return 对应的serviceID
+ */
+//- (int)responseServiceID;
+
+/**
+ *  请求的commendID
+ *
+ *  @return 对应的commendID
+ */
+//- (int)requestCommendID;
+
+/**
+ *  请求返回的commendID
+ *
+ *  @return 对应的commendID
+ */
+//- (int)responseCommendID;
 
 /**
  *  解析数据的block
  *
  *  @return 解析数据的block
  */
-- (Unpack)Unserialize;
+- (int)UnserializeData:(NSData*)msgData;
 
 /**
  *  打包数据的block
  *
  *  @return 打包数据的block
  */
-- (Pack)Serialize;
+- (NSData*)SerializeData;
 @end

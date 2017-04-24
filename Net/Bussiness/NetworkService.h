@@ -25,7 +25,7 @@
 
 #import "NetworkDelegate.h"
 #import "NetworkStatus.h"
-#import "PushNotifyDelegate.h"
+//#import "PushNotifyDelegate.h"
 
 @class CGITask;
 @class ViewController;
@@ -47,8 +47,8 @@
 - (void)makesureLongLinkConnect;
 - (void)destroyMars;
 
-- (void)addPushObserver:(id<PushNotifyDelegate>)observer withCmdId:(int)cmdId;
-- (int)startTask:(CGITask *)task ForUI:(id<UINotifyDelegate>)delegateUI;
+- (void)addPushObserver:(id<NoRespondProtocol>)observer withCmdId:(int)cmdId;
+- (int)startTask:(CGITask *)task ForUI:(id<RespondProtocol>)delegateUI;
 - (void)stopTask:(NSInteger)taskID;
 
 // event reporting

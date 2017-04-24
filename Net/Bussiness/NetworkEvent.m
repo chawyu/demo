@@ -25,12 +25,12 @@
 
 @implementation NetworkEvent
 
-- (void)addPushObserver:(id<PushNotifyDelegate>)observer withCmdId:(int)cmdId {
-    LOG_INFO(kNetwork, @"add pushObserver for cmdId:%d", cmdId);
+- (void)addPushObserver:(id<NoRespondProtocol>)observer withCmdId:(int)cmdId {
+   // LOG_INFO(kNetwork, @"add pushObserver for cmdId:%d", cmdId);
     [pushrecvers setObject:observer forKey:[NSString stringWithFormat:@"%d", cmdId]];
 }
 
-- (void)addObserver:(id<UINotifyDelegate>)observer forKey:(NSString *)key {
+- (void)addObserver:(id<RespondProtocol>)observer forKey:(NSString *)key {
     [controllers setObject:observer forKey:key];
 }
 
@@ -60,9 +60,9 @@
 }
 
 - (void)OnPushWithCmd:(NSInteger)cid data:(NSData *)data {
-    id<PushNotifyDelegate> pushObserver = [pushrecvers objectForKey:[NSString stringWithFormat:@"%d", cid]];
+    id<NoRespondProtocol> pushObserver = [pushrecvers objectForKey:[NSString stringWithFormat:@"%d", cid]];
     if (pushObserver != nil) {
-        [pushObserver notifyPushMessage:data withCmdId:cid];
+        //[pushObserver notifyPushMessage:data withCmdId:cid];
     }
 }
 
@@ -71,9 +71,9 @@
     
     NSString *taskIdKey = [NSString stringWithFormat:@"%d", tid];
     
-    id<UINotifyDelegate> uiObserver = [controllers objectForKey:taskIdKey];
+    id<RespondProtocol> uiObserver = [controllers objectForKey:taskIdKey];
     if (uiObserver != nil) {
-        data = [uiObserver requestSendData];
+        data = [uiObserver SerializeData];
     }
     
     return data;
@@ -84,9 +84,9 @@
     
     NSString *taskIdKey = [NSString stringWithFormat:@"%d", tid];
     
-    id<UINotifyDelegate> uiObserver = [controllers objectForKey:taskIdKey];
+    id<RespondProtocol> uiObserver = [controllers objectForKey:taskIdKey];
     if (uiObserver != nil) {
-        returnType = [uiObserver notifyUIWithResponse:data];
+        returnType = [uiObserver UnserializeData:data];
     }
     else {
         returnType = -1;

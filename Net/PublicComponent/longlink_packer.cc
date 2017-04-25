@@ -28,7 +28,7 @@
 #include "comm/xlogger/xlogger.h"
 #include "comm/socket/unix_socket.h"
 #endif
-#define NOOP_CMDID 5
+#define NOOP_CMDID 6
 static uint32_t sg_client_version = 0;
 
 #pragma pack(push, 1)

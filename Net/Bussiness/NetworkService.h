@@ -48,7 +48,8 @@
 - (void)destroyMars;
 
 - (void)addPushObserver:(id<NoRespondProtocol>)observer withCmdId:(int)cmdId;
-- (int)startTask:(CGITask *)task ForUI:(id<RespondProtocol>)delegateUI;
+//- (int)startTask:(CGITask *)task ForUI:(id<RespondProtocol>)delegateUI;
+- (int)startTask:(id<RespondProtocol>)msgData;
 - (void)stopTask:(NSInteger)taskID;
 
 // event reporting

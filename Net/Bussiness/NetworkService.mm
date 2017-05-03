@@ -109,7 +109,7 @@ static NetworkService * sharedSingleton = nil;
 - (void)addPushObserver:(id<NoRespondProtocol>)observer withCmdId:(int)cmdId {
     [_delegate addPushObserver:observer withCmdId:cmdId];
 }
-
+/*
 - (int)startTask:(CGITask *)task ForUI:(id<RespondProtocol>)delegateUI {
     Task ctask;
     ctask.cmdid = task.cmdid;
@@ -122,6 +122,23 @@ static NetworkService * sharedSingleton = nil;
     
     NSString *taskIdKey = [NSString stringWithFormat:@"%d", ctask.taskid];
     [_delegate addObserver:delegateUI forKey:taskIdKey];
+    [_delegate addCGITasks:task forKey:taskIdKey];
+    
+    return ctask.taskid;
+}
+*/
+- (int)startTask:(id<RespondProtocol>)msgData {
+    Task ctask;
+    ctask.cmdid = [msgData requestCmdId];
+    ctask.channel_select = [msgData requestChannel];
+    ctask.cgi = std::string(@"");
+    //ctask.shortlink_host_list.push_back(std::string(task.host.UTF8String));
+    //ctask.user_context = (__bridge void*)task;
+    
+    mars::stn::StartTask(ctask);
+    
+    NSString *taskIdKey = [NSString stringWithFormat:@"%d", ctask.taskid];
+    [_delegate addObserver:msgData forKey:taskIdKey];
     [_delegate addCGITasks:task forKey:taskIdKey];
     
     return ctask.taskid;

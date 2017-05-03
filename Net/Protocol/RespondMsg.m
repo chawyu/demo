@@ -1,6 +1,7 @@
 
 
 #import "RespondMsg.h"
+#import "NetworkService.h"
 
 //#import "DDSeqNoManager.h"
 
@@ -9,6 +10,9 @@ static uint16_t theSeqNo = 0;
 @implementation RespondMsg
 - (void)requestWithObject:(id)object Completion:(RequestCompletion)completion
 {
+    [[NetworkService sharedInstance] startTask:self];
+    //保存完成块
+    self.completion = completion;
     /*
     //seqNo
     theSeqNo ++;
@@ -43,5 +47,20 @@ static uint16_t theSeqNo = 0;
     }
      */
 }
-
+//---required
+- (id)UnserializeData:(NSData*)msgData{return -1;}
+- (NSData*)SerializeData{return NULL;}
+- (int)requestCmdId{return 0;}
+- (int)requestChannel{return ChannelType_LongConn;}
+//---option
+- (BOOL)requestSendOnly{return false;}
+- (BOOL)requestNeedAuthed{return true;}
+- (BOOL)requestLimitFlow{return true;}
+- (BOOL)requestLimitFrequency{return true;}
+- (BOOL)requestNetworkSensitive{return true;}
+//- (int)requestChannelStrategy{}
+//- (int)requestPriority{}
+- (int)requestRetryCount{return -1;}
+- (int)requestServerCost{return 0;}
+- (int)requestTotalCost{return 0;}
 @end

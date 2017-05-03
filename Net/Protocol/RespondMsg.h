@@ -15,11 +15,31 @@ static uint32_t strLen(NSString *aString)
 /**
  *  这是一个超级类，不能被直接使用
  */
+
 #define TimeOutTimeInterval 10
-@interface RespondMsg : NSObject
+//-----------------------
+#define ChannelType_ShortConn 1
+#define ChannelType_LongConn 2
+#define ChannelType_All 3
+@interface RespondMsg : NSObject<RespondProtocol>
 @property (nonatomic,copy)RequestCompletion completion;
-//@property (nonatomic,readonly)uint16_t seqNo;
 
 - (void)requestWithObject:(id)object Completion:(RequestCompletion)completion;
-
+//----
+- (id)UnserializeData:(NSData*)msgData;
+- (NSData*)SerializeData;
+- (int)requestCmdId;
+- (int)requestChannel;
+//----
+- (BOOL)requestSendOnly;
+- (BOOL)requestNeedAuthed;
+- (BOOL)requestLimitFlow;
+- (BOOL)requestLimitFrequency;
+- (BOOL)requestNetworkSensitive;
+//- (int)requestChannelStrategy;
+//- (int)requestPriority;
+- (int)requestRetryCount;
+- (int)requestServerCost;
+- (int)requestTotalCost;
+//----
 @end

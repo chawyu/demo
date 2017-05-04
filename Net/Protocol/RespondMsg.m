@@ -8,11 +8,12 @@
 static uint16_t theSeqNo = 0;
 
 @implementation RespondMsg
-- (void)requestWithObject:(id)object Completion:(RequestCompletion)completion
+- (void)requestWithObject:(NSArray*)args Completion:(RequestCompletion)completion
 {
     [[NetworkService sharedInstance] startTask:self];
     //保存完成块
     self.completion = completion;
+    self.args = args;
     /*
     //seqNo
     theSeqNo ++;
@@ -49,7 +50,7 @@ static uint16_t theSeqNo = 0;
 }
 //---required
 - (id)UnserializeData:(NSData*)msgData{return -1;}
-- (NSData*)SerializeData{return NULL;}
+- (NSData*)SerializeData{ return NULL;}
 - (int)requestCmdId{return 0;}
 - (int)requestChannel{return ChannelType_LongConn;}
 //---option

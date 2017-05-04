@@ -23,8 +23,9 @@ static uint32_t strLen(NSString *aString)
 #define ChannelType_All 3
 @interface RespondMsg : NSObject<RespondProtocol>
 @property (nonatomic,copy)RequestCompletion completion;
+@property (nonatomic,strong)NSArray* args;
 
-- (void)requestWithObject:(id)object Completion:(RequestCompletion)completion;
+- (void)requestWithObject:(NSArray*)args Completion:(RequestCompletion)completion;
 //----
 - (id)UnserializeData:(NSData*)msgData;
 - (NSData*)SerializeData;

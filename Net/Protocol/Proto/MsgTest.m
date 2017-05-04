@@ -27,7 +27,5 @@
     return 100;
 }
 
-- (int)requestChannel{
-    return 1;
-}
+
 @end

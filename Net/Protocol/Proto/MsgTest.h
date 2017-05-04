@@ -8,6 +8,6 @@
 
 #import "RespondMsg.h"
 
-@interface MsgTest : RespondMsg<RespondProtocol>
+@interface MsgTest : RespondMsg
 
 @end
